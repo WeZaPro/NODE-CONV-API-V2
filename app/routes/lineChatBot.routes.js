@@ -34,12 +34,12 @@ module.exports = (app) => {
     res.send("welcome api");
   });
 
-  app.get("/callback_temp", async (req, res) => {
+  app.get("/callback", async (req, res) => {
     try {
       // Find one document based on the email field
       const data = await Customer.findOne({ customer_id: Customer_code });
       console.log("data ", data);
-      res.send(data);
+      // res.send(data);
       const requestUrl = req.originalUrl;
       const state = req.query.state;
       const authorizationCode = req.query.code;
@@ -80,7 +80,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get("/callback", async (req, res) => {
+  app.get("/callback_temp", async (req, res) => {
     // console.log("req ", req);
     const requestUrl = req.originalUrl;
     console.log("Request URL:", requestUrl);
