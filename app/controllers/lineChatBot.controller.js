@@ -199,8 +199,9 @@ const test_lineSend = async function (req, lineUserData) {
   const line = require("@line/bot-sdk");
 
   const config = {
-    channelAccessToken: lineUserData._channel_access_token,
-    channelSecret: lineUserData._line_login_channel_secret,
+    channelAccessToken:
+      "tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=",
+    channelSecret: "e8176b152eeb6562a05a43dc040ac014",
   };
   const client = new line.Client(config);
 
