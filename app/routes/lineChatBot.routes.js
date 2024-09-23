@@ -56,7 +56,7 @@ module.exports = (app) => {
             code: authorizationCode,
             redirect_uri: redirectUri,
             client_id: clientId,
-            client_secret: dclientSecret,
+            client_secret: clientSecret,
           }),
           {
             headers: {
