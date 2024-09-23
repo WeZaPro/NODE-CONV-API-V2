@@ -229,88 +229,88 @@ const lineSend = async function (req, lineUserData) {
 
   console.log("req.body.events[0] ", req.body.events[0]);
 
-  try {
-    if (
-      req.body.events[0].type == "message" ||
-      req.body.events[0].type == "text"
-    ) {
-      console.log(
-        "TYPE Message============> ",
-        req.body.events[0].message.text
-      );
-      const getText = req.body.events[0].message.text;
-      let messageBack = ""; // Use let instead of const to allow reassignment
+  // try {
+  //   if (
+  //     req.body.events[0].type == "message" ||
+  //     req.body.events[0].type == "text"
+  //   ) {
+  //     console.log(
+  //       "TYPE Message============> ",
+  //       req.body.events[0].message.text
+  //     );
+  //     const getText = req.body.events[0].message.text;
+  //     let messageBack = ""; // Use let instead of const to allow reassignment
 
-      const checkTextA = "สนใจ";
-      const checkTextB = "สั่งซื้อ";
-      const isInterest = getText.includes(checkTextA);
-      const isPurchase = getText.includes(checkTextB);
+  //     const checkTextA = "สนใจ";
+  //     const checkTextB = "สั่งซื้อ";
+  //     const isInterest = getText.includes(checkTextA);
+  //     const isPurchase = getText.includes(checkTextB);
 
-      console.log("isPurchase ", isPurchase);
-      console.log("isInterest ", isInterest);
+  //     console.log("isPurchase ", isPurchase);
+  //     console.log("isInterest ", isInterest);
 
-      const START = "START";
-      // console.log("isInterest ", isInterest);
+  //     const START = "START";
+  //     // console.log("isInterest ", isInterest);
 
-      if (isInterest) {
-        // console.log("interest case");
-        messageBack = `${checkTextA} = interest case`;
-        console.log("interest ", interest);
-        await fnAddConv(userId, interest);
-        // ส่งข้อความตอบกลับผู้ใช้
-        return client_line.replyMessage(req.body.events[0].replyToken, {
-          type: "text",
-          text: `SEND CASE ${messageBack}! `,
-        });
-      } else if (isPurchase) {
-        // console.log("purchase case");
-        messageBack = `${checkTextB} = purchase case`;
-        await fnAddConv(userId, purchase);
-        // ส่งข้อความตอบกลับผู้ใช้
-        return client_line.replyMessage(req.body.events[0].replyToken, {
-          type: "text",
-          text: `SEND CASE ${messageBack}! `,
-        });
-      } else {
-        // รับ TEXT จาก LIFF WEB
-        //Todo
-        // update bot User ID
-        messageBack = ` = update userid case`;
-        console.log("normal text>>>>");
+  //     if (isInterest) {
+  //       // console.log("interest case");
+  //       messageBack = `${checkTextA} = interest case`;
+  //       console.log("interest ", interest);
+  //       await fnAddConv(userId, interest);
+  //       // ส่งข้อความตอบกลับผู้ใช้
+  //       return client_line.replyMessage(req.body.events[0].replyToken, {
+  //         type: "text",
+  //         text: `SEND CASE ${messageBack}! `,
+  //       });
+  //     } else if (isPurchase) {
+  //       // console.log("purchase case");
+  //       messageBack = `${checkTextB} = purchase case`;
+  //       await fnAddConv(userId, purchase);
+  //       // ส่งข้อความตอบกลับผู้ใช้
+  //       return client_line.replyMessage(req.body.events[0].replyToken, {
+  //         type: "text",
+  //         text: `SEND CASE ${messageBack}! `,
+  //       });
+  //     } else {
+  //       // รับ TEXT จาก LIFF WEB
+  //       //Todo
+  //       // update bot User ID
+  //       messageBack = ` = update userid case`;
+  //       console.log("normal text>>>>");
 
-        // try {
-        //   DataGTM.findOne(
-        //     { lineBotUid: req.body.events[0].source.userId },
-        //     function (err, _userId) {
-        //       console.log("_userId => ", _userId);
-        //       if (_userId === null) {
-        //         //Todo send message confirm save
-        //         confirmSaveDb(req, res, config_line.channelAccessToken);
-        //         // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
-        //       } else {
-        //         // console.log("req.body.events[0].--> ", req.body.events[0]);
-        //         console.log("req.body.events[0].--> ");
-        //       }
-        //     }
-        //   );
-        // } catch (err) {
-        //   console.log(err);
-        // }
-      }
-    } else if (req.body.events[0].type == "follow") {
-      console.log("TYPE FOLLOW============> ");
+  //       // try {
+  //       //   DataGTM.findOne(
+  //       //     { lineBotUid: req.body.events[0].source.userId },
+  //       //     function (err, _userId) {
+  //       //       console.log("_userId => ", _userId);
+  //       //       if (_userId === null) {
+  //       //         //Todo send message confirm save
+  //       //         confirmSaveDb(req, res, config_line.channelAccessToken);
+  //       //         // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
+  //       //       } else {
+  //       //         // console.log("req.body.events[0].--> ", req.body.events[0]);
+  //       //         console.log("req.body.events[0].--> ");
+  //       //       }
+  //       //     }
+  //       //   );
+  //       // } catch (err) {
+  //       //   console.log(err);
+  //       // }
+  //     }
+  //   } else if (req.body.events[0].type == "follow") {
+  //     console.log("TYPE FOLLOW============> ");
 
-      await fnAddConv(userId, addNewFriend);
+  //     await fnAddConv(userId, addNewFriend);
 
-      // ส่งข้อความตอบกลับผู้ใช้
-      return client_line.replyMessage(req.body.events[0].replyToken, {
-        type: "text",
-        text: `Hello ${profile.displayName}! Your user ID is ${profile.userId}.`,
-      });
-    }
-  } catch (err) {
-    console.error("Error getting profile:", err);
-  }
+  //     // ส่งข้อความตอบกลับผู้ใช้
+  //     return client_line.replyMessage(req.body.events[0].replyToken, {
+  //       type: "text",
+  //       text: `Hello ${profile.displayName}! Your user ID is ${profile.userId}.`,
+  //     });
+  //   }
+  // } catch (err) {
+  //   console.error("Error getting profile:", err);
+  // }
 };
 
 exports.lineUser = async (req, res) => {
