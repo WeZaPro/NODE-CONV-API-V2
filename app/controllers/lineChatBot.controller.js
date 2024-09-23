@@ -273,25 +273,26 @@ const lineSend = async function (req, lineUserData) {
         //Todo
         // update bot User ID
         messageBack = ` = update userid case`;
+        console.log("normal text>>>>");
 
-        try {
-          DataGTM.findOne(
-            { lineBotUid: req.body.events[0].source.userId },
-            function (err, _userId) {
-              console.log("_userId => ", _userId);
-              if (_userId === null) {
-                //Todo send message confirm save
-                confirmSaveDb(req, res, config_line.channelAccessToken);
-                // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
-              } else {
-                // console.log("req.body.events[0].--> ", req.body.events[0]);
-                console.log("req.body.events[0].--> ");
-              }
-            }
-          );
-        } catch (err) {
-          console.log(err);
-        }
+        // try {
+        //   DataGTM.findOne(
+        //     { lineBotUid: req.body.events[0].source.userId },
+        //     function (err, _userId) {
+        //       console.log("_userId => ", _userId);
+        //       if (_userId === null) {
+        //         //Todo send message confirm save
+        //         confirmSaveDb(req, res, config_line.channelAccessToken);
+        //         // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
+        //       } else {
+        //         // console.log("req.body.events[0].--> ", req.body.events[0]);
+        //         console.log("req.body.events[0].--> ");
+        //       }
+        //     }
+        //   );
+        // } catch (err) {
+        //   console.log(err);
+        // }
       }
     } else if (req.body.events[0].type == "follow") {
       console.log("TYPE FOLLOW============> ");
@@ -388,7 +389,7 @@ exports.lineUser = async (req, res) => {
             };
             console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
 
-            // lineSend(req, lineUserData);
+            lineSend(req, lineUserData);
           }
         }
       }
