@@ -96,24 +96,24 @@ exports.searchCusData = (req, res) => {
 };
 
 exports.searchCusId = (req, res) => {
-  const _line_user_id = req.body.line_user_id;
-  console.log("find _line_user_id data ", _line_user_id);
+  const _cus_id = req.body.cus_id;
+  console.log("find _line_user_id data ", _cus_id);
   try {
-    DataGTM.findOne({ lineUid: _line_user_id })
+    DataGTM.findOne({ customerID: _cus_id })
       .then((data) => {
         if (!data)
           res
             .status(404)
-            .send({ message: "Not found findCusId with id " + _line_user_id });
+            .send({ message: "Not found findCusId with id " + _cus_id });
         else
           res.send({
             message: "send customer data",
-            data: data.customerID,
+            data: data,
           });
       })
       .catch((err) => {
         res.status(500).send({
-          message: "Error retrieving findCusId with id=" + _line_user_id,
+          message: "Error retrieving findCusId with id=" + _cus_id,
         });
       });
   } catch (err) {

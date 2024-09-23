@@ -18,7 +18,7 @@ const line = require("@line/bot-sdk");
 // };
 // const client = new line.Client(config);
 
-function confirmSaveDb(req, res, channelAccessToken) {
+function confirmSaveDb(req, res, channelAccessToken, uri) {
   console.log("req.body.destination ", req.body.destination);
 
   try {
@@ -30,7 +30,7 @@ function confirmSaveDb(req, res, channelAccessToken) {
         replyToken: req.body.events[0].replyToken,
         //   messages: samplePayload(),
 
-        messages: setRegister(lineUserId, req.body.destination),
+        messages: setRegister(lineUserId, req.body.destination, uri),
 
         //   ],
       });
@@ -73,7 +73,7 @@ function confirmSaveDb(req, res, channelAccessToken) {
   }
 }
 
-function setRegister(lineUserId, getLineDestination) {
+function setRegister(lineUserId, getLineDestination, uri) {
   const testParam = lineUserId;
 
   var urlLiff = process.env.liffChat;
@@ -94,7 +94,8 @@ function setRegister(lineUserId, getLineDestination) {
             type: "uri",
             label: "YES",
             // uri: `${urlLiff}/?botUserId=${lineUserId}`,
-            uri: `${urlLiff}/?botUserId=${lineUserId}&lineDestination=${getLineDestination}`,
+            uri: uri,
+            // uri: `${urlLiff}/?botUserId=${lineUserId}&lineDestination=${getLineDestination}`,
           },
           {
             type: "uri",
@@ -332,9 +333,9 @@ exports.lineUser = async (req, res) => {
         if (_userId === null) {
           console.log("_userId-->null ");
           //Todo send message confirm save
-          // confirmSaveDb(req, res, config_line.channelAccessToken);
+          confirmSaveDb(req, res, config_line.channelAccessToken, uri);
           // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
-          open(uri);
+          // open(uri);
         } else {
           // console.log("req.body.events[0].--> ", req.body.events[0]);
 
