@@ -25,16 +25,16 @@ module.exports = (app) => {
   // const client = new line.Client(config);
 
   // Provider Line Login
-  // const clientId = process.env.clientId;
-  // const clientSecret = process.env.channelSecret;
-  // const redirectUri = process.env.redirectUri;
+  const clientId = process.env.clientId;
+  const clientSecret = process.env.channelSecret;
+  const redirectUri = process.env.redirectUri;
 
   app.get("/", async (req, res) => {
     console.log("--->", req.body);
     res.send("welcome api");
   });
 
-  app.get("/callback", async (req, res) => {
+  app.get("/callback_temp", async (req, res) => {
     try {
       // Find one document based on the email field
       const data = await Customer.findOne({ customer_id: Customer_code });
@@ -80,66 +80,66 @@ module.exports = (app) => {
     }
   });
 
-  // app.get("/callback_temp", async (req, res) => {
-  //   // console.log("req ", req);
-  //   const requestUrl = req.originalUrl;
-  //   console.log("Request URL:", requestUrl);
-  //   const state = req.query.state;
-  //   console.log("state>>>>> ", state);
+  app.get("/callback", async (req, res) => {
+    // console.log("req ", req);
+    const requestUrl = req.originalUrl;
+    console.log("Request URL:", requestUrl);
+    const state = req.query.state;
+    console.log("state>>>>> ", state);
 
-  //   const authorizationCode = req.query.code;
+    const authorizationCode = req.query.code;
 
-  //   if (!authorizationCode) {
-  //     return res.status(400).send("Authorization code is missing");
-  //   }
+    if (!authorizationCode) {
+      return res.status(400).send("Authorization code is missing");
+    }
 
-  //   try {
-  //     const response = await axios.post(
-  //       "https://api.line.me/oauth2/v2.1/token",
-  //       new URLSearchParams({
-  //         grant_type: "authorization_code",
-  //         code: authorizationCode,
-  //         redirect_uri: redirectUri,
-  //         client_id: clientId,
-  //         client_secret: clientSecret,
-  //       }),
-  //       {
-  //         headers: {
-  //           "Content-Type": "application/x-www-form-urlencoded",
-  //         },
-  //       }
-  //     );
+    try {
+      const response = await axios.post(
+        "https://api.line.me/oauth2/v2.1/token",
+        new URLSearchParams({
+          grant_type: "authorization_code",
+          code: authorizationCode,
+          redirect_uri: redirectUri,
+          client_id: clientId,
+          client_secret: clientSecret,
+        }),
+        {
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+        }
+      );
 
-  //     const accessToken = response.data.access_token;
-  //     // res.send(`Access Token: ${accessToken}`);
+      const accessToken = response.data.access_token;
+      // res.send(`Access Token: ${accessToken}`);
 
-  //     if (accessToken) {
-  //       // ถ้าทุกอย่างถูกต้อง redirect ไปที่ Vue.js หน้า Home
+      if (accessToken) {
+        // ถ้าทุกอย่างถูกต้อง redirect ไปที่ Vue.js หน้า Home
 
-  //       //https://vue-line-liff-conversion.onrender.com
-  //       //https://schoolshopliffweb.onrender.com
-  //       res.redirect(`${state}?token=${accessToken}`);
-  //     } else {
-  //       // ถ้าเกิดข้อผิดพลาด redirect ไปหน้า Error
-  //       res.redirect(state);
-  //     }
-  //   } catch (error) {
-  //     console.error(
-  //       "Error exchanging code for access token:",
-  //       error.response ? error.response.data : error.message
-  //     );
-  //     // ส่งข้อผิดพลาดที่เจอไปยังผู้ใช้
-  //     res
-  //       .status(500)
-  //       .send(
-  //         `Error exchanging code for access token: ${
-  //           error.response
-  //             ? error.response.data.error_description
-  //             : error.message
-  //         }`
-  //       );
-  //   }
-  // });
+        //https://vue-line-liff-conversion.onrender.com
+        //https://schoolshopliffweb.onrender.com
+        res.redirect(`${state}?token=${accessToken}`);
+      } else {
+        // ถ้าเกิดข้อผิดพลาด redirect ไปหน้า Error
+        res.redirect(state);
+      }
+    } catch (error) {
+      console.error(
+        "Error exchanging code for access token:",
+        error.response ? error.response.data : error.message
+      );
+      // ส่งข้อผิดพลาดที่เจอไปยังผู้ใช้
+      res
+        .status(500)
+        .send(
+          `Error exchanging code for access token: ${
+            error.response
+              ? error.response.data.error_description
+              : error.message
+          }`
+        );
+    }
+  });
 
   app.post("/findConvUidToUpdateLineUid", async (req, res) => {
     const db = require("../models");
