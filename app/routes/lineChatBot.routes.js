@@ -37,7 +37,7 @@ module.exports = (app) => {
   app.get("/callback", async (req, res) => {
     try {
       // Find one document based on the email field
-      Customer.findOne({ customer_id: Customer_code })
+      await Customer.findOne({ customer_id: Customer_code })
         .then((data) => {
           if (data) {
             console.log("Customer found:", data);
@@ -56,7 +56,7 @@ module.exports = (app) => {
               new URLSearchParams({
                 grant_type: "authorization_code",
                 code: authorizationCode,
-                redirect_uri: redirectUri,
+                redirect_uri: data.redirect_callback,
                 client_id: data.line_login_channel_id,
                 client_secret: data.line_login_channel_secret,
               }),
