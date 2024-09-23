@@ -1,10 +1,13 @@
 module.exports = (app) => {
   const lineBot = require("../controllers/lineChatBot.controller");
+  const db = require("../models");
 
   var router = require("express").Router();
   const axios = require("axios");
   const bodyParser = require("body-parser");
   app.use(bodyParser.urlencoded({ extended: true }));
+  const Customer = db.customer;
+  const Customer_code = "A002";
 
   app.post("/saveDataInfo", lineBot.saveDataInfo);
   app.post("/lineUser", lineBot.lineUser);
@@ -26,7 +29,61 @@ module.exports = (app) => {
   const clientSecret = process.env.channelSecret;
   const redirectUri = process.env.redirectUri;
 
+  app.get("/", async (req, res) => {
+    console.log("--->", req.body);
+    res.send("welcome api");
+  });
+
   app.get("/callback", async (req, res) => {
+    try {
+      // Find one document based on the email field
+      const data = await Customer.findOne({ customer_id: Customer_code });
+      const requestUrl = req.originalUrl;
+      const state = req.query.state;
+      const authorizationCode = req.query.code;
+
+      if (!authorizationCode) {
+        return res.status(400).send("Authorization code is missing");
+      }
+
+      if (data) {
+        const response = await axios.post(
+          "https://api.line.me/oauth2/v2.1/token",
+          new URLSearchParams({
+            grant_type: "authorization_code",
+            code: authorizationCode,
+            redirect_uri: data.redirectUri,
+            client_id: clientId,
+            client_secret: clientSecret,
+          }),
+          {
+            headers: {
+              "Content-Type": "application/x-www-form-urlencoded",
+            },
+          }
+        );
+
+        const accessToken = response.data.access_token;
+        // res.send(`Access Token: ${accessToken}`);
+
+        if (accessToken) {
+          // ถ้าทุกอย่างถูกต้อง redirect ไปที่ Vue.js หน้า Home
+
+          //https://vue-line-liff-conversion.onrender.com
+          //https://schoolshopliffweb.onrender.com
+          res.redirect(`${state}?token=${accessToken}`);
+        } else {
+          // ถ้าเกิดข้อผิดพลาด redirect ไปหน้า Error
+          res.redirect(state);
+        }
+      }
+    } catch (error) {
+      console.error("Error finding data:", error);
+      throw error; // Re-throw error to handle it in the calling function
+    }
+  });
+
+  app.get("/callback_temp", async (req, res) => {
     // console.log("req ", req);
     const requestUrl = req.originalUrl;
     console.log("Request URL:", requestUrl);

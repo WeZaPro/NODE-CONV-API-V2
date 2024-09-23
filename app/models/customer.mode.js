@@ -6,6 +6,11 @@ module.exports = (mongoose) => {
         type: String,
         default: "",
       },
+      redirect_callback: {
+        //
+        type: String,
+        default: "",
+      },
       //-------
       // line_user_id: {
       //   //

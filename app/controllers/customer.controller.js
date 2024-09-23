@@ -18,6 +18,7 @@ exports.create = async (req, res) => {
       // line_user_id: req.body.line_user_id,
       // line_bot_id: req.body.line_bot_id,
       line_OA: req.body.line_OA, //fix ค่า
+      redirect_callback: req.body.redirect_callback,
 
       line_liff_login_id: req.body.line_liff_login_id, //fix ค่า
       line_login_channel_id: req.body.line_login_channel_id, //fix ค่า
