@@ -131,12 +131,12 @@ exports.saveDataInfo = async (req, res) => {
     session_id: req.body.session_id,
   });
 
-  console.log("-------------IPADDRESS----------------", req.body.ipAddess);
-  console.log("gtmData --------", gtmData);
+  // console.log("-------------IPADDRESS----------------", req.body.ipAddess);
+  // console.log("gtmData --------", gtmData);
   if (gtmData.utm_source && gtmData.utm_medium) {
-    console.log("Save db --------");
-    console.log("utm_source ", gtmData.utm_source);
-    console.log("utm_medium ", gtmData.utm_medium);
+    // console.log("Save db --------");
+    // console.log("utm_source ", gtmData.utm_source);
+    // console.log("utm_medium ", gtmData.utm_medium);
     DataGTM.findOne(
       { convUserId: req.body.convUserId },
       // { ipAddess: req.body.ipAddess },
@@ -160,8 +160,8 @@ exports.saveDataInfo = async (req, res) => {
   } else {
     console.log("---------------------------------------------");
     console.log("Don't Save db ขาดข้อมูล UTM --------");
-    console.log("utm_source ", gtmData.utm_source);
-    console.log("utm_medium ", gtmData.utm_medium);
+    // console.log("utm_source ", gtmData.utm_source);
+    // console.log("utm_medium ", gtmData.utm_medium);
   }
 };
 //
@@ -195,52 +195,6 @@ exports.updateLineBotId = async (req, res) => {
   }
 };
 
-// const test_lineSend = async function (req, lineUserData) {
-//   const line = require("@line/bot-sdk");
-
-//   const config = {
-//     channelAccessToken:
-//       "tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=",
-//     channelSecret: "e8176b152eeb6562a05a43dc040ac014",
-//   };
-//   const client = new line.Client(config);
-
-//   // Check if there are events in the request
-//   if (!req.body.events || req.body.events.length === 0) {
-//     console.error("No events found in request body");
-//     return;
-//   }
-
-//   const event = req.body.events[0];
-//   const replyToken = event.replyToken;
-
-//   // Ensure the replyToken exists
-//   if (!replyToken) {
-//     console.error("No replyToken found in event");
-//     return;
-//   }
-
-//   // Ensure the message text exists
-//   const messageText = event.message?.text;
-//   if (!messageText) {
-//     console.error("No message text found in event");
-//     return;
-//   }
-
-//   try {
-//     await client.replyMessage(replyToken, {
-//       type: "text",
-//       text: `SEND CASE TEST ${messageText}`,
-//     });
-//     console.log("Message sent successfully");
-//   } catch (err) {
-//     console.error(
-//       "Error replying message: ",
-//       err.response?.data || err.message
-//     );
-//   }
-// };
-
 const lineSend = async function (req, lineUserData) {
   console.log("lineSend lineUserData ", lineUserData);
   const config = {
@@ -249,7 +203,7 @@ const lineSend = async function (req, lineUserData) {
   };
   const client_line = new line.Client(config);
 
-  const lineUid = req.body.events[0].source.userId;
+  // const lineUid = req.body.events[0].source.userId;
 
   const userId = req.body.events[0].source.userId;
   const profile = await client_line.getProfile(userId);
@@ -323,25 +277,6 @@ const lineSend = async function (req, lineUserData) {
         // update bot User ID
         messageBack = ` = update userid case`;
         console.log("normal text>>>>");
-
-        // try {
-        //   DataGTM.findOne(
-        //     { lineBotUid: req.body.events[0].source.userId },
-        //     function (err, _userId) {
-        //       console.log("_userId => ", _userId);
-        //       if (_userId === null) {
-        //         //Todo send message confirm save
-        //         confirmSaveDb(req, res, config_line.channelAccessToken);
-        //         // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
-        //       } else {
-        //         // console.log("req.body.events[0].--> ", req.body.events[0]);
-        //         console.log("req.body.events[0].--> ");
-        //       }
-        //     }
-        //   );
-        // } catch (err) {
-        //   console.log(err);
-        // }
       }
     } else if (req.body.events[0].type == "follow") {
       console.log("TYPE FOLLOW============> ");
@@ -392,11 +327,6 @@ exports.lineUser = async (req, res) => {
         } else {
           console.log("req.body.events[0].--> ", req.body.events[0]);
 
-          // const dataFromDes = getCusDataFromDestination(_getLineDestination);
-          // const dataFromDes = ""(async () => {
-          //   dataFromDes = await getCusDataFromDestination(_getLineDestination);
-          //   // console.log("dataFromDes-> ", dataFromDes);
-          // })();
           const dataFromDes = await getCusDataFromDestination(
             _getLineDestination
           );
@@ -438,10 +368,9 @@ exports.lineUser = async (req, res) => {
               tt_eventA: dataFromDes.tt_eventA,
               tt_eventB: dataFromDes.tt_eventB,
             };
-            console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
+            // console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
 
             lineSend(req, lineUserData);
-            // test_lineSend(req, lineUserData);
           }
         }
       }
@@ -449,86 +378,6 @@ exports.lineUser = async (req, res) => {
   } catch (err) {
     console.log("err ", err);
   }
-
-  // msg = "Bot Marketing ==> ";
-  //     channel_access_token = AccessToken_BotMarketing;
-  //     _ga4_id = BotMarketing_ga4_id;
-  //     _addNewFriend_secret = BotMarketing_ga4_secret_addNewFriend;
-  //     _addNewFriend_event = BotMarketing_ga4_event_addNewFriend;
-  //     _purchaseA_secret = BotMarketing_ga4_secret__purchase;
-  //     _purchaseA_event = BotMarketing_ga4_event_purchase;
-  //     _interest_secret = BotMarketing_ga4_secret_interest;
-  //     _interest_event = BotMarketing_ga4_event_interest;
-
-  // check destination
-  // const BotMarketing_Destination = "U07ab7da94695cca39e6333e9a7db7ba7";
-  // const AccessToken_BotMarketing =
-  //   "tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=";
-  // const channelSecret_BotMarketing = "ed8d53f3b3d65b4f30a12af005f0a510";
-  // const BotMarketing_ga4_id = "G-BF1T8ZNXZQ";
-  // //
-  // const BotMarketing_ga4_event_addNewFriend = "addFriend";
-  // const BotMarketing_ga4_secret_addNewFriend = "C2sGHFZaRF6MA0KQ_igkiA";
-  // //
-  // const BotMarketing_ga4_event_purchase = "PurchaseA";
-  // const BotMarketing_ga4_secret__purchase = "NMsz4YtcS0SlSoFV-jK-uQ";
-  // //
-  // const BotMarketing_ga4_event_interest = "interest";
-  // const BotMarketing_ga4_secret_interest = "_UBms8ItRX2nl49klAVNVw";
-  // //-----------------------------------------------------------------------------------------------------------------
-  // const SiriBot_Destination = "U8b1d7e5f0a2986289113cfb14df51e18";
-  // const AccessToken_SiriBot =
-  //   "XMJ7WeHHv/jhWWGEeDqV3PxO7fuxAtRumykv5/hm4ZqD+dQac2XtZiQySQavmI38CcwkeucAeTgiVRg1nyv6bE95TkrNDURLRYqM1PjmgfkZ7EQHWiBT5/sIAhIs7iyr6FAKSBvTEX3bfmKVVKGB4gdB04t89/1O/w1cDnyilFU=";
-  // const channelSecret_SiriBot = "894bf30e64cb28fff808ce93ffb19230";
-  // const SiriBot_ga4_id = "G-041ZG8ZZ50";
-  // //
-  // const SiriBot_ga4_event_addNewFriend = "addFriend";
-  // const SiriBot_ga4_secret_addNewFriend = "ERh5RV41TVOQORPAFcJaKw";
-  // //
-  // const SiriBot_ga4_event_purchase = "PurchaseA";
-  // const SiriBot_ga4_secret_purchase = "FVxfTVDPSFuV78wK3Fv4fQ";
-  // //
-  // const SiriBot_ga4_event_interest = "interest";
-  // const SiriBot_ga4_secret_interest = "eF_AC5SeRxi2BwCBZok5Yw";
-  //-------------------------------------------------------------------------------
-
-  // let channel_access_token = "";
-  // let secret_channel = "";
-  // //
-  // let _ga4_id = "";
-  // let _addNewFriend_secret = "";
-  // let _addNewFriend_event = "";
-  // let _purchaseA_secret = "";
-  // let _purchaseA_event = "";
-  // let _interest_secret = "";
-  // let _interest_event = "";
-  // //
-  // switch (req.body.destination) {
-  //   case BotMarketing_Destination:
-  //     msg = "Bot Marketing ==> ";
-  //     channel_access_token = AccessToken_BotMarketing;
-  //     _ga4_id = BotMarketing_ga4_id;
-  //     _addNewFriend_secret = BotMarketing_ga4_secret_addNewFriend;
-  //     _addNewFriend_event = BotMarketing_ga4_event_addNewFriend;
-  //     _purchaseA_secret = BotMarketing_ga4_secret__purchase;
-  //     _purchaseA_event = BotMarketing_ga4_event_purchase;
-  //     _interest_secret = BotMarketing_ga4_secret_interest;
-  //     _interest_event = BotMarketing_ga4_event_interest;
-  //     break;
-
-  //   case SiriBot_Destination:
-  //     msg = "SiriBot ==> ";
-  //     channel_access_token = AccessToken_SiriBot;
-  //     //
-  //     _ga4_id = SiriBot_ga4_id;
-  //     _addNewFriend_secret = SiriBot_ga4_secret_addNewFriend;
-  //     _addNewFriend_event = SiriBot_ga4_event_addNewFriend;
-  //     _purchaseA_secret = SiriBot_ga4_secret_purchase;
-  //     _purchaseA_event = SiriBot_ga4_event_purchase;
-  //     _interest_secret = SiriBot_ga4_secret_interest;
-  //     _interest_event = SiriBot_ga4_event_interest; //
-  //     break;
-  // }
 };
 
 // };
@@ -624,9 +473,9 @@ const sendToGa4 = async function (userId, getEnv) {
         }
       );
 
-      console.log("response status>>>>>>> ", response.status);
-      console.log("response headers>>>>>>> ", response.headers);
-      console.log("response data>>>>>>> ", response.data);
+      // console.log("response status>>>>>>> ", response.status);
+      // console.log("response headers>>>>>>> ", response.headers);
+      // console.log("response data>>>>>>> ", response.data);
     }
   } catch (error) {
     console.error("Error with axios: ", error);

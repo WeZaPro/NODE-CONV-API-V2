@@ -13,13 +13,13 @@ module.exports = (app) => {
 
   // ---------------------------
   // API CHAT BOT
-  const line = require("@line/bot-sdk");
-  const config = {
-    channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-    channelSecret: process.env.channelSecret,
-  };
+  // const line = require("@line/bot-sdk");
+  // const config = {
+  //   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
+  //   channelSecret: process.env.channelSecret,
+  // };
 
-  const client = new line.Client(config);
+  // const client = new line.Client(config);
 
   // Provider Line Login
   const clientId = process.env.clientId;
