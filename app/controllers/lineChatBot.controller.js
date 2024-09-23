@@ -196,11 +196,12 @@ exports.updateLineBotId = async (req, res) => {
 };
 
 const lineSend = async function (req, lineUserData) {
-  const config_line = {
+  console.log("lineSend lineUserData ", lineUserData);
+  const config = {
     channelAccessToken: lineUserData._channel_access_token,
     channelSecret: lineUserData._line_login_channel_secret,
   };
-  const client_line = new line.Client(config_line);
+  const client_line = new line.Client(config);
 
   const lineUid = req.body.events[0].source.userId;
 
@@ -225,6 +226,8 @@ const lineSend = async function (req, lineUserData) {
     secret_value: lineUserData._interest_secret,
     event: lineUserData._interest_event,
   };
+
+  console.log("req.body.events[0] ", req.body.events[0]);
 
   try {
     if (
