@@ -54,6 +54,11 @@ module.exports = (mongoose) => {
         type: String,
         default: "",
       },
+      line_msg_api_channel_secret: {
+        //
+        type: String,
+        default: "",
+      },
       line_login_channel_secret: {
         //
         type: String,

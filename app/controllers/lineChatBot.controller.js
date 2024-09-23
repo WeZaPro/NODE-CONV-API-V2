@@ -195,57 +195,57 @@ exports.updateLineBotId = async (req, res) => {
   }
 };
 
-const test_lineSend = async function (req, lineUserData) {
-  const line = require("@line/bot-sdk");
+// const test_lineSend = async function (req, lineUserData) {
+//   const line = require("@line/bot-sdk");
 
-  const config = {
-    channelAccessToken:
-      "tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=",
-    channelSecret: "e8176b152eeb6562a05a43dc040ac014",
-  };
-  const client = new line.Client(config);
+//   const config = {
+//     channelAccessToken:
+//       "tvb2bkJUvF5ZbSzAf9WDSmfwbwRDxI/2Nlw1TROa2XbaSAXdySiT1w4OvRQrTWPcZXSWvNn1cwlZtBkjly5fhhubxbIXzxZ5sAqnk0644k4l1ShKzP2MXJxZ50Wd1L0d1Yba6vX1JVDQYA/EBH2DbgdB04t89/1O/w1cDnyilFU=",
+//     channelSecret: "e8176b152eeb6562a05a43dc040ac014",
+//   };
+//   const client = new line.Client(config);
 
-  // Check if there are events in the request
-  if (!req.body.events || req.body.events.length === 0) {
-    console.error("No events found in request body");
-    return;
-  }
+//   // Check if there are events in the request
+//   if (!req.body.events || req.body.events.length === 0) {
+//     console.error("No events found in request body");
+//     return;
+//   }
 
-  const event = req.body.events[0];
-  const replyToken = event.replyToken;
+//   const event = req.body.events[0];
+//   const replyToken = event.replyToken;
 
-  // Ensure the replyToken exists
-  if (!replyToken) {
-    console.error("No replyToken found in event");
-    return;
-  }
+//   // Ensure the replyToken exists
+//   if (!replyToken) {
+//     console.error("No replyToken found in event");
+//     return;
+//   }
 
-  // Ensure the message text exists
-  const messageText = event.message?.text;
-  if (!messageText) {
-    console.error("No message text found in event");
-    return;
-  }
+//   // Ensure the message text exists
+//   const messageText = event.message?.text;
+//   if (!messageText) {
+//     console.error("No message text found in event");
+//     return;
+//   }
 
-  try {
-    await client.replyMessage(replyToken, {
-      type: "text",
-      text: `SEND CASE TEST ${messageText}`,
-    });
-    console.log("Message sent successfully");
-  } catch (err) {
-    console.error(
-      "Error replying message: ",
-      err.response?.data || err.message
-    );
-  }
-};
+//   try {
+//     await client.replyMessage(replyToken, {
+//       type: "text",
+//       text: `SEND CASE TEST ${messageText}`,
+//     });
+//     console.log("Message sent successfully");
+//   } catch (err) {
+//     console.error(
+//       "Error replying message: ",
+//       err.response?.data || err.message
+//     );
+//   }
+// };
 
 const lineSend = async function (req, lineUserData) {
   console.log("lineSend lineUserData ", lineUserData);
   const config = {
     channelAccessToken: lineUserData._channel_access_token,
-    channelSecret: lineUserData._line_login_channel_secret,
+    channelSecret: lineUserData._line_msg_api_channel_secret,
   };
   const client_line = new line.Client(config);
 
@@ -409,6 +409,8 @@ exports.lineUser = async (req, res) => {
               msg: "Hello Bot",
               _customer_id: dataFromDes.customer_id,
               _channel_access_token: dataFromDes.line_msg_api_token,
+              _line_msg_api_channel_secret:
+                dataFromDes.line_msg_api_channel_secret,
               _line_bot_destination: dataFromDes.line_bot_destination,
               _line_login_channel_id: dataFromDes.line_login_channel_id,
               _line_login_channel_secret: dataFromDes.line_login_channel_secret,
@@ -438,8 +440,8 @@ exports.lineUser = async (req, res) => {
             };
             console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
 
-            // lineSend(req, lineUserData);
-            test_lineSend(req, lineUserData);
+            lineSend(req, lineUserData);
+            // test_lineSend(req, lineUserData);
           }
         }
       }
