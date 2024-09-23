@@ -340,54 +340,54 @@ exports.lineUser = async (req, res) => {
           // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
           // open(uri);
         } else {
-          // console.log("req.body.events[0].--> ", req.body.events[0]);
+          console.log("req.body.events[0].--> ", req.body.events[0]);
 
           // const dataFromDes = getCusDataFromDestination(_getLineDestination);
           // const dataFromDes = ""(async () => {
           //   dataFromDes = await getCusDataFromDestination(_getLineDestination);
           //   // console.log("dataFromDes-> ", dataFromDes);
           // })();
-          const dataFromDes = await getCusDataFromDestination(
-            _getLineDestination
-          );
+          // const dataFromDes = await getCusDataFromDestination(
+          //   _getLineDestination
+          // );
           // console.log("dataFromDes-> ", dataFromDes);
 
           //TODO
           // 1. ใช้
-          lineUserData = {
-            msg: "Hello Bot",
-            _customer_id: dataFromDes.customer_id,
-            _channel_access_token: dataFromDes.line_msg_api_token,
-            _line_bot_destination: dataFromDes.line_bot_destination,
-            _line_login_channel_id: dataFromDes.line_login_channel_id,
-            _line_login_channel_secret: dataFromDes.line_login_channel_secret,
-            _line_reDirect_toLiff: dataFromDes.line_reDirect_toLiff,
-            _line_liff_login_id: dataFromDes.line_liff_login_id,
-            _line_liff_url: dataFromDes.line_liff_url,
+          // lineUserData = {
+          //   msg: "Hello Bot",
+          //   // _customer_id: dataFromDes.customer_id,
+          //   _channel_access_token: dataFromDes.line_msg_api_token,
+          //   _line_bot_destination: dataFromDes.line_bot_destination,
+          //   _line_login_channel_id: dataFromDes.line_login_channel_id,
+          //   _line_login_channel_secret: dataFromDes.line_login_channel_secret,
+          //   _line_reDirect_toLiff: dataFromDes.line_reDirect_toLiff,
+          //   _line_liff_login_id: dataFromDes.line_liff_login_id,
+          //   _line_liff_url: dataFromDes.line_liff_url,
 
-            _ga4_id: dataFromDes.Measurement_id,
-            _addNewFriend_secret: dataFromDes.addFriend_secret,
-            _addNewFriend_event: dataFromDes.addFriend_name,
-            _purchaseA_secret: dataFromDes.purchaseA_secret,
-            _purchaseA_event: dataFromDes.purchaseA_name,
-            _interest_secret: dataFromDes.interest_secret,
-            _interest_event: dataFromDes.interest_name,
+          //   _ga4_id: dataFromDes.Measurement_id,
+          //   _addNewFriend_secret: dataFromDes.addFriend_secret,
+          //   _addNewFriend_event: dataFromDes.addFriend_name,
+          //   _purchaseA_secret: dataFromDes.purchaseA_secret,
+          //   _purchaseA_event: dataFromDes.purchaseA_name,
+          //   _interest_secret: dataFromDes.interest_secret,
+          //   _interest_event: dataFromDes.interest_name,
 
-            fb_pixel: dataFromDes.fb_pixel,
-            fb_token: dataFromDes.fb_token,
-            fb_testCode: dataFromDes.fb_testCode,
-            fb_eventA: dataFromDes.fb_eventA,
-            fb_eventB: dataFromDes.fb_eventB,
+          //   fb_pixel: dataFromDes.fb_pixel,
+          //   fb_token: dataFromDes.fb_token,
+          //   fb_testCode: dataFromDes.fb_testCode,
+          //   fb_eventA: dataFromDes.fb_eventA,
+          //   fb_eventB: dataFromDes.fb_eventB,
 
-            tt_pixel: dataFromDes.tt_pixel,
-            tt_token: dataFromDes.tt_token,
-            tt_testCode: dataFromDes.tt_testCode,
-            tt_eventA: dataFromDes.tt_eventA,
-            tt_eventB: dataFromDes.tt_eventB,
-          };
-          // console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
+          //   tt_pixel: dataFromDes.tt_pixel,
+          //   tt_token: dataFromDes.tt_token,
+          //   tt_testCode: dataFromDes.tt_testCode,
+          //   tt_eventA: dataFromDes.tt_eventA,
+          //   tt_eventB: dataFromDes.tt_eventB,
+          // };
+          // // console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
 
-          lineSend(req, lineUserData);
+          // lineSend(req, lineUserData);
         }
       }
     );
