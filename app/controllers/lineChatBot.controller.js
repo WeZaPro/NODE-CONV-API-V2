@@ -203,11 +203,15 @@ const test_lineSend = async function (req, lineUserData) {
     channelSecret: lineUserData._line_login_channel_secret,
   };
   const client_line = new this_line.Client(config);
-  // console.log("lineSend client_line", client_line);
-  return client_line.replyMessage(req.body.events[0].replyToken, {
-    type: "text",
-    text: `SEND CASE TEST ${req.body.events[0].message.text}`,
-  });
+  console.log("lineSend req.body.events[0]", req.body.events[0]);
+  console.log(
+    "lineSend req.body.events[0].replyToken",
+    req.body.events[0].replyToken
+  );
+  // return client_line.replyMessage(req.body.events[0].replyToken, {
+  //   type: "text",
+  //   text: `SEND CASE TEST ${req.body.events[0].message.text}`,
+  // });
 };
 
 const lineSend = async function (req, lineUserData) {
