@@ -57,8 +57,8 @@ module.exports = (app) => {
                 grant_type: "authorization_code",
                 code: authorizationCode,
                 redirect_uri: data.redirect_callback,
-                client_id: data.line_login_channel_id,
-                client_secret: data.line_login_channel_secret,
+                client_id: clientId,
+                client_secret: clientSecret,
               }),
               {
                 headers: {
