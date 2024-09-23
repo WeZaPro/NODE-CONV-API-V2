@@ -197,15 +197,15 @@ exports.updateLineBotId = async (req, res) => {
 
 const test_lineSend = async function (req, lineUserData) {
   console.log("lineSend lineUserData ", lineUserData);
-  // const config = {
-  //   channelAccessToken: lineUserData._channel_access_token,
-  //   channelSecret: lineUserData._line_login_channel_secret,
-  // };
-  // const client_line = new line.Client(config);
-  // return client_line.replyMessage(req.body.events[0].replyToken, {
-  //   type: "text",
-  //   text: `SEND CASE TEST`,
-  // });
+  const config = {
+    channelAccessToken: lineUserData._channel_access_token,
+    channelSecret: lineUserData._line_login_channel_secret,
+  };
+  const client_line = new line.Client(config);
+  return client_line.replyMessage(req.body.events[0].replyToken, {
+    type: "text",
+    text: `SEND CASE TEST`,
+  });
 };
 
 const lineSend = async function (req, lineUserData) {
