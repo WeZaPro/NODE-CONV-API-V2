@@ -58,7 +58,7 @@ module.exports = (app) => {
                 code: authorizationCode,
                 redirect_uri: data.redirect_callback,
                 client_id: data.line_login_channel_id,
-                client_secret: line_login_channel_secret,
+                client_secret: data.line_login_channel_secret,
               }),
               {
                 headers: {
