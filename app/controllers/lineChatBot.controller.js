@@ -310,7 +310,8 @@ const lineSend = async function (req, lineUserData) {
 };
 
 exports.lineUser = async (req, res) => {
-  const open = (await import("open")).default;
+  // const open = (await import("open")).default;
+  console.log("req.body ", req.body);
   let lineUserData = {};
   var urlLiff = process.env.liffChat;
   const _lineUserId = req.body.events[0].source.userId;
