@@ -51,7 +51,7 @@ module.exports = (app) => {
               return res.status(400).send("Authorization code is missing");
             }
 
-            axios.post(
+            const response = axios.post(
               "https://api.line.me/oauth2/v2.1/token",
               new URLSearchParams({
                 grant_type: "authorization_code",
