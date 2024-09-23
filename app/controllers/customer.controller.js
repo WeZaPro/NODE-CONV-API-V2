@@ -29,7 +29,7 @@ exports.create = async (req, res) => {
       line_reDirect_toLiff: req.body.line_reDirect_toLiff, //fix ค่า
       line_liff_login_id: req.body.line_liff_login_id, //fix ค่า
 
-      //line_msg_api_token: req.body.line_msg_api_token, //fix ค่า
+      line_msg_api_token: req.body.line_msg_api_token, //fix ค่า
 
       Measurement_id: req.body.Measurement_id, //fix ค่า
 
