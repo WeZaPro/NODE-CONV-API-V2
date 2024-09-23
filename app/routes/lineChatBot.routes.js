@@ -34,7 +34,7 @@ module.exports = (app) => {
     res.send("welcome api");
   });
 
-  app.get("/callback", async (req, res) => {
+  app.get("/callback_temp", async (req, res) => {
     try {
       // Find one document based on the email field
       await Customer.findOne({ customer_id: Customer_code })
@@ -90,7 +90,7 @@ module.exports = (app) => {
     }
   });
 
-  app.get("/callback_temp", async (req, res) => {
+  app.get("/callback", async (req, res) => {
     // console.log("req ", req);
     const requestUrl = req.originalUrl;
     console.log("Request URL:", requestUrl);
