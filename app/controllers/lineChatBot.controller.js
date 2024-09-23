@@ -386,9 +386,9 @@ exports.lineUser = async (req, res) => {
               tt_eventA: dataFromDes.tt_eventA,
               tt_eventB: dataFromDes.tt_eventB,
             };
-            // // console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
+            console.log("lineUserData >>>>>>>>>>>>>>> ", lineUserData);
 
-            lineSend(req, lineUserData);
+            // lineSend(req, lineUserData);
           }
         }
       }
@@ -481,6 +481,7 @@ exports.lineUser = async (req, res) => {
 // };
 
 const getCusDataFromDestination = async function (_destination) {
+  console.log("getCusDataFromDestination _destination ", _destination);
   try {
     const data = await Customer.find({ line_bot_destination: _destination });
     // console.log("data >>>>> : ", data);
