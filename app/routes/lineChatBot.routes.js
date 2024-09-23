@@ -25,9 +25,9 @@ module.exports = (app) => {
   // const client = new line.Client(config);
 
   // Provider Line Login
-  const clientId = process.env.clientId;
-  const clientSecret = process.env.channelSecret;
-  const redirectUri = process.env.redirectUri;
+  // const clientId = process.env.clientId;
+  // const clientSecret = process.env.channelSecret;
+  // const redirectUri = process.env.redirectUri;
 
   app.get("/", async (req, res) => {
     console.log("--->", req.body);
@@ -54,9 +54,9 @@ module.exports = (app) => {
           new URLSearchParams({
             grant_type: "authorization_code",
             code: authorizationCode,
-            redirect_uri: redirectUri,
-            client_id: clientId,
-            client_secret: clientSecret,
+            redirect_uri: data.redirect_callback,
+            client_id: data.line_login_channel_id,
+            client_secret: data.line_msg_api_channel_secret,
           }),
           {
             headers: {
