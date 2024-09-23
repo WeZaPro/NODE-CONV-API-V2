@@ -318,10 +318,10 @@ exports.lineUser = async (req, res) => {
   const _getLineDestination = req.body.destination;
   const uri = `${urlLiff}/?botUserId=${_lineUserId}&lineDestination=${_getLineDestination}`;
   // console.log("req.body>>>>>>>>>>>>>>> ", req.body);
-  // console.log("req.source>>>>>>>>>>>>>>> ", req.body.events[0].source);
+  console.log("req.source>>>>>>>>>>>>>>> ", req.body.events[0].source);
   // const getLineDestination = req.body.destination;
-  // console.log("getLineDestination>>>>>>>>>>>>>>> ", req.body.destination);
-  // console.log("userId>>>>>>>>>>>>>>> ", req.body.events[0].source.userId);
+  console.log("getLineDestination>>>>>>>>>>>>>>> ", req.body.destination);
+  console.log("userId>>>>>>>>>>>>>>> ", req.body.events[0].source.userId);
   // const dataFromDes = await getCusDataFromDestination(getLineDestination);
   // console.log("dataFromDes >>>>>>>>>>>>>>> ", dataFromDes);
 
