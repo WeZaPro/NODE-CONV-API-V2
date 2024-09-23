@@ -74,6 +74,26 @@ exports.create = async (req, res) => {
     console.log("err ", err);
   }
 };
+exports.searchCusData = (req, res) => {
+  console.log("req.body.cus_id ", req.body.cus_id);
+  try {
+    Customer.findOne({ customer_id: req.body.cus_id })
+      .then((cusData) => {
+        if (!cusData)
+          res.status(404).send({
+            message: "Not found findCusId with id " + req.body.cus_id,
+          });
+        else res.send(cusData);
+      })
+      .catch((err) => {
+        res.status(500).send({
+          message: "Error retrieving findCusId with id=" + _line_user_id,
+        });
+      });
+  } catch (err) {
+    console.log("err ", err);
+  }
+};
 
 exports.searchCusId = (req, res) => {
   const _line_user_id = req.body.line_user_id;

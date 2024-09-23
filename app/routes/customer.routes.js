@@ -8,6 +8,7 @@ module.exports = (app) => {
   router.post("/", customer.create);
 
   router.post("/searchCusId", customer.searchCusId);
+  router.post("/searchCusData", customer.searchCusData);
   // find cus id -> update line uid , bot uid , bot destination
   router.post("/findAndUpdateLine", customer.findAndUpdateLine);
 
