@@ -196,26 +196,29 @@ exports.updateLineBotId = async (req, res) => {
 };
 
 const test_lineSend = async function (req, lineUserData) {
-  const this_line = require("@line/bot-sdk");
+  const line = require("@line/bot-sdk"); // Changed variable name to `line` for clarity
   // console.log("lineSend lineUserData ", lineUserData);
   const config = {
     channelAccessToken: lineUserData._channel_access_token,
     channelSecret: lineUserData._line_login_channel_secret,
   };
-  const client_line = new this_line.Client(config);
+  const client = new line.Client(config); // Accessing Client directly from `line`
+
   console.log("lineSend req.body.events[0]", req.body.events[0]);
   console.log(
     "lineSend req.body.events[0].replyToken",
     req.body.events[0].replyToken
   );
-  client_line.replyMessage(req.body.events[0].replyToken, {
-    type: "text",
-    text: `SEND CASE TEST ${req.body.events[0].message.text}`,
-  });
-  // return client_line.replyMessage(req.body.events[0].replyToken, {
-  //   type: "text",
-  //   text: `SEND CASE TEST ${req.body.events[0].message.text}`,
-  // });
+
+  // Sending a reply message
+  client
+    .replyMessage(req.body.events[0].replyToken, {
+      type: "text",
+      text: `SEND CASE TEST ${req.body.events[0].message.text}`,
+    })
+    .catch((err) => {
+      console.error("Error replying message: ", err); // Handling any errors that occur during reply
+    });
 };
 
 const lineSend = async function (req, lineUserData) {
