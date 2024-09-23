@@ -208,6 +208,10 @@ const test_lineSend = async function (req, lineUserData) {
     "lineSend req.body.events[0].replyToken",
     req.body.events[0].replyToken
   );
+  client_line.replyMessage(req.body.events[0].replyToken, {
+    type: "text",
+    text: `SEND CASE TEST ${req.body.events[0].message.text}`,
+  });
   // return client_line.replyMessage(req.body.events[0].replyToken, {
   //   type: "text",
   //   text: `SEND CASE TEST ${req.body.events[0].message.text}`,
