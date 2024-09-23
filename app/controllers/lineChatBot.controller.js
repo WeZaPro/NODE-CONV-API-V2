@@ -10,13 +10,8 @@ const axios = require("axios");
 
 // API CHAT BOT
 const line = require("@line/bot-sdk");
-// check channel access token + channel Secret
+//TODO ENV------------------************
 const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN;
-// const config = {
-//   channelAccessToken: process.env.LINE_CHANNEL_ACCESS_TOKEN,
-//   channelSecret: process.env.channelSecret,
-// };
-// const client = new line.Client(config);
 
 // function confirmSaveDb(req, res, channelAccessToken, uri) {
 function confirmSaveDb(req, res, uri) {
