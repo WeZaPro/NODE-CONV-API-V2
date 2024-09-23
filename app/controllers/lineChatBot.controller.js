@@ -18,11 +18,12 @@ const line = require("@line/bot-sdk");
 // };
 // const client = new line.Client(config);
 
-function confirmSaveDb(req, res, channelAccessToken, uri) {
+// function confirmSaveDb(req, res, channelAccessToken, uri) {
+function confirmSaveDb(req, res, uri) {
   console.log("req.body.destination ", req.body.destination);
 
   try {
-    const lineUserId = req.body.events[0].source.userId;
+    const botUid = req.body.events[0].source.userId;
     if (req.body.events[0].message.type === "text") {
       // not stricker
 
@@ -30,7 +31,7 @@ function confirmSaveDb(req, res, channelAccessToken, uri) {
         replyToken: req.body.events[0].replyToken,
         //   messages: samplePayload(),
 
-        messages: setRegister(lineUserId, req.body.destination, uri),
+        messages: setRegister(botUid, req.body.destination, uri),
 
         //   ],
       });
@@ -73,8 +74,8 @@ function confirmSaveDb(req, res, channelAccessToken, uri) {
   }
 }
 
-function setRegister(lineUserId, getLineDestination, uri) {
-  const testParam = lineUserId;
+function setRegister(botUid, getLineDestination, uri) {
+  const testParam = botUid;
 
   var urlLiff = process.env.liffChat;
   console.log("urlLiff -> ", testParam);
@@ -95,12 +96,12 @@ function setRegister(lineUserId, getLineDestination, uri) {
             label: "YES",
             // uri: `${urlLiff}/?botUserId=${lineUserId}`,
             uri: uri,
-            // uri: `${urlLiff}/?botUserId=${lineUserId}&lineDestination=${getLineDestination}`,
+            // uri: `${urlLiff}/?botUserId=${botUid}&lineDestination=${getLineDestination}`,
           },
           {
             type: "uri",
             label: "NO",
-            uri: `${urlLiff}/?lineUserId=${lineUserId}`,
+            uri: `${urlLiff}/?lineUserId=${botUid}`,
           },
           // {
           //   type: "message",
@@ -333,7 +334,8 @@ exports.lineUser = async (req, res) => {
         if (_userId === null) {
           console.log("_userId-->null ");
           //Todo send message confirm save
-          confirmSaveDb(req, res, config_line.channelAccessToken, uri);
+          // confirmSaveDb(req, res, config_line.channelAccessToken, uri);
+          confirmSaveDb(req, res, uri);
           // กด yes บน reply จะส่ง botUid ไปกับ param และ find lineUid -> update botUid
           // open(uri);
         } else {
