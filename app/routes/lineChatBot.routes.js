@@ -37,43 +37,53 @@ module.exports = (app) => {
   app.get("/callback", async (req, res) => {
     try {
       // Find one document based on the email field
-      const data = await Customer.findOne({ customer_id: Customer_code });
-      console.log("data ", data);
-      // res.send(data);
-      const requestUrl = req.originalUrl;
-      const state = req.query.state;
-      const authorizationCode = req.query.code;
+      Customer.findOne({ customer_id: Customer_code })
+        .then((data) => {
+          if (data) {
+            console.log("Customer found:", data);
 
-      if (!authorizationCode) {
-        return res.status(400).send("Authorization code is missing");
-      }
+            // res.send(data);
+            const requestUrl = req.originalUrl;
+            const state = req.query.state;
+            const authorizationCode = req.query.code;
 
-      if (data) {
-        const response = await axios.post(
-          "https://api.line.me/oauth2/v2.1/token",
-          new URLSearchParams({
-            grant_type: "authorization_code",
-            code: authorizationCode,
-            redirect_uri: redirectUri,
-            client_id: clientId,
-            client_secret: clientSecret,
-          }),
-          {
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-            },
+            if (!authorizationCode) {
+              return res.status(400).send("Authorization code is missing");
+            }
+
+            axios.post(
+              "https://api.line.me/oauth2/v2.1/token",
+              new URLSearchParams({
+                grant_type: "authorization_code",
+                code: authorizationCode,
+                redirect_uri: data.redirect_callback,
+                client_id: data.line_login_channel_id,
+                client_secret: line_login_channel_secret,
+              }),
+              {
+                headers: {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                },
+              }
+            );
+
+            const accessToken = response.data.access_token;
+
+            if (accessToken) {
+              res.redirect(`${state}?token=${accessToken}`);
+            } else {
+              // ถ้าเกิดข้อผิดพลาด redirect ไปหน้า Error
+              res.redirect(state);
+            }
+
+            // คุณสามารถทำงานเพิ่มเติมกับข้อมูลได้ที่นี่
+          } else {
+            console.log("Customer not found");
           }
-        );
-
-        const accessToken = response.data.access_token;
-
-        if (accessToken) {
-          res.redirect(`${state}?token=${accessToken}`);
-        } else {
-          // ถ้าเกิดข้อผิดพลาด redirect ไปหน้า Error
-          res.redirect(state);
-        }
-      }
+        })
+        .catch((err) => {
+          console.error("Error finding customer:", err);
+        });
     } catch (error) {
       console.error("Error finding data:", error);
       throw error; // Re-throw error to handle it in the calling function
